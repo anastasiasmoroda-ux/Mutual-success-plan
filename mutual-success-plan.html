@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mutual Success Plan — Semrush Trial</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f7f8fc;
+    color: #1a1a2e;
+    padding: 40px 20px;
+  }
+  .container { max-width: 860px; margin: 0 auto; }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-pdf {
+    background: #FF642D;
+    color: white;
+  }
+  .btn-pdf:hover { background: #e5561f; }
+  .btn-reset {
+    background: white;
+    color: #888;
+    border: 1.5px solid #e0e0e0;
+  }
+  .btn-reset:hover { background: #f7f8fc; }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #FF642D 0%, #ff8c5a 100%);
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin-bottom: 32px;
+    color: white;
+  }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .header p { font-size: 15px; opacity: 0.9; }
+  .header .meta {
+    display: flex; gap: 16px; margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 6px 16px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px;
+  }
+  .meta-item label { opacity: 0.85; white-space: nowrap; }
+  .meta-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid rgba(255,255,255,0.5);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    width: 120px;
+    outline: none;
+    padding: 1px 4px;
+  }
+  .meta-input::placeholder { color: rgba(255,255,255,0.6); font-weight: 400; }
+  .meta-input:focus { border-bottom-color: white; }
+
+  /* Sections */
+  .section {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 24px;
+    background: #fafafa;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .section-number {
+    width: 30px; height: 30px;
+    background: #FF642D;
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; flex-shrink: 0;
+  }
+  .section-title { font-size: 16px; font-weight: 600; color: #1a1a2e; }
+  .section-subtitle { font-size: 13px; color: #888; margin-left: auto; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    background: #f7f8fc;
+    padding: 12px 20px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  td {
+    padding: 12px 20px;
+    font-size: 14px;
+    border-bottom: 1px solid #f7f8fc;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  tr:last-child td { border-bottom: none; }
+
+  .label {
+    font-weight: 600;
+    color: #1a1a2e;
+    min-width: 160px;
+    width: 28%;
+  }
+  .hint-text {
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* Editable fields */
+  .editable {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    font-family: inherit;
+    color: #1a1a2e;
+    resize: none;
+    line-height: 1.5;
+    min-height: 24px;
+    border-bottom: 1.5px dashed #e0d6ff;
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+  }
+  .editable:focus {
+    border-bottom-color: #FF642D;
+    background: #fffaf8;
+    border-radius: 4px;
+    padding: 2px 6px;
+  }
+  .editable::placeholder { color: #ccc; font-style: italic; }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 6px;
+    white-space: nowrap;
+  }
+  .tag-pass { background: #e6f9f0; color: #27ae60; }
+  .tag-fail { background: #fdecea; color: #e74c3c; }
+  .tag-owner { background: #eef2ff; color: #5c6bc0; }
+
+  /* Status dropdowns */
+  .status-select {
+    border: none;
+    background: #f7f8fc;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 13px;
+    color: #555;
+    cursor: pointer;
+    outline: none;
+  }
+  .status-select:focus { outline: 2px solid #FF642D; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    color: #bbb;
+    font-size: 13px;
+    margin-top: 32px;
+  }
+
+  /* Print styles */
+  @media print {
+    body { background: white; padding: 20px; }
+    .toolbar { display: none !important; }
+    .editable { border-bottom: 1px solid #ddd !important; }
+    .section { box-shadow: none; border: 1px solid #eee; }
+    .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section-number { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tag { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <button class="btn btn-reset" onclick="resetForm()">↺ Reset</button>
+    <button class="btn btn-pdf" onclick="window.print()">⬇ Save as PDF</button>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>🤝 Mutual Success Plan</h1>
+    <p>Let's make sure we both know what "winning" looks like at the end of this trial.</p>
+    <div class="meta">
+      <div class="meta-item">
+        <label>Company:</label>
+        <input class="meta-input" type="text" placeholder="Client name" id="meta-company">
+      </div>
+      <div class="meta-item">
+        <label>Trial Start:</label>
+        <input class="meta-input" type="text" placeholder="DD/MM/YYYY" id="meta-start">
+      </div>
+      <div class="meta-item">
+        <label>Trial End:</label>
+        <input class="meta-input" type="text" placeholder="DD/MM/YYYY" id="meta-end">
+      </div>
+      <div class="meta-item">
+        <label>AE:</label>
+        <input class="meta-input" type="text" placeholder="Nastia" id="meta-ae" value="Nastia">
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: What we're testing -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div>
+        <div class="section-title">What We're Testing & Why</div>
+      </div>
+      <div class="section-subtitle">Fill in together on kick-off call</div>
+    </div>
+    <table>
+      <tr>
+        <th style="width:30%">Area</th>
+        <th style="width:35%">Hint / Example</th>
+        <th style="width:35%">Your answer</th>
+      </tr>
+      <tr>
+        <td class="label">Primary use case</td>
+        <td style="color:#aaa; font-size:13px; font-style:italic;">Competitive research, keyword tracking, site audit, AI visibility…</td>
+        <td><textarea class="editable" placeholder="e.g. Track competitor rankings + run site audit" rows="2"></textarea></td>
+      </tr>
+      <tr>
+        <td class="label">Business goal</td>
+        <td style="color:#aaa; font-size:13px; font-style:italic;">Grow organic traffic, reduce reporting time, win back market share</td>
+        <td><textarea class="editable" placeholder="e.g. Increase organic traffic by 20% in Q2" rows="2"></textarea></td>
+      </tr>
+      <tr>
+        <td class="label">Why now?</td>
+        <td style="color:#aaa; font-size:13px; font-style:italic;">New market launch, current tool contract ending, team scaling</td>
+        <td><textarea class="editable" placeholder="e.g. Current tool contract ending in March" rows="2"></textarea></td>
+      </tr>
+      <tr>
+        <td class="label">Features / tools in scope</td>
+        <td style="color:#aaa; font-size:13px; font-style:italic;">Position Tracking, Site Audit, Keyword Magic, API, Datos, AI Overview…</td>
+        <td><textarea class="editable" placeholder="e.g. Position Tracking + Keyword Magic Tool" rows="2"></textarea></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- SECTION 2: Success Criteria -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <div>
+        <div class="section-title">Success Criteria — What Does "Good" Look Like?</div>
+      </div>
+      <div class="section-subtitle">Agree before trial starts ✅</div>
+    </div>
+    <table>
+      <tr>
+        <th style="width:28%">Criterion</th>
+        <th style="width:36%"><span class="tag tag-pass">✓ PASS looks like</span></th>
+        <th style="width:36%"><span class="tag tag-fail">✗ FAIL looks like</span></th>
+      </tr>
+      <tr>
+        <td class="label">Data quality / accuracy</td>
+        <td><textarea class="editable" placeholder="e.g. Keyword volumes match within 15% of our actuals" rows="2"></textarea></td>
+        <td><textarea class="editable" placeholder="e.g. Data feels inaccurate or outdated for our market" rows="2"></textarea></td>
+      </tr>
+      <tr>
+        <td class="label">Coverage</td>
+        <td><textarea class="editable" placeholder="e.g. Tracks 90%+ of our target keywords & key competitors" rows="2"></textarea></td>
+        <td><textarea class="editable" placeholder="e.g. Key competitors or regions are missing" rows="2"></textarea></td>
+      </tr>
+      <tr>
+        <td class="label">Ease of use / adoption</td>
+        <td><textarea class="editable" placeholder="e.g. Team can run core reports without hand-holding" rows="2"></textarea></td>
+        <td><textarea class="editable" placeholder="e.g. Too complex, team won't use it regularly" rows="2"></textarea></td>
+      </tr>
+      <tr>
+        <td class="label">Integration / API</td>
+        <td><textarea class="editable" placeholder="e.g. Successfully pulled data into our dashboard via API" rows="2"></textarea></td>
+        <td><textarea class="editable" placeholder="e.g. API limits too restrictive or integration failed" rows="2"></textarea></td>
+      </tr>
+      <tr>
+        <td class="label">ROI / value signal</td>
+        <td><textarea class="editable" placeholder="e.g. Found 3+ actionable insights in first week" rows="2"></textarea></td>
+        <td><textarea class="editable" placeholder="e.g. No clear 'aha moment' during trial" rows="2"></textarea></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- SECTION 3: Timeline -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <div>
+        <div class="section-title">Timeline & Who's Responsible</div>
+      </div>
+    </div>
+    <table>
+      <tr>
+        <th style="width:18%">When</th>
+        <th style="width:42%">Milestone</th>
+        <th style="width:20%">Owner (Client)</th>
+        <th style="width:20%">Owner (Semrush)</th>
+      </tr>
+      <tr>
+        <td class="label">Day 1</td>
+        <td><textarea class="editable" placeholder="Access set up, onboarding call, first project created" rows="2"></textarea></td>
+        <td><input class="editable" type="text" placeholder="Name"></td>
+        <td><input class="editable" type="text" placeholder="Nastia" value="Nastia"></td>
+      </tr>
+      <tr>
+        <td class="label">Week 1</td>
+        <td><textarea class="editable" placeholder="Core use case configured, first reports run" rows="2"></textarea></td>
+        <td><input class="editable" type="text" placeholder="Name"></td>
+        <td><input class="editable" type="text" placeholder="Nastia" value="Nastia"></td>
+      </tr>
+      <tr>
+        <td class="label">Mid-trial check-in</td>
+        <td><textarea class="editable" placeholder="30-min call: what's working, blockers, adjustments" rows="2"></textarea></td>
+        <td><input class="editable" type="text" placeholder="Name"></td>
+        <td><input class="editable" type="text" placeholder="Nastia" value="Nastia"></td>
+      </tr>
+      <tr>
+        <td class="label">Final wrap-up</td>
+        <td><textarea class="editable" placeholder="Review results against success criteria together" rows="2"></textarea></td>
+        <td><input class="editable" type="text" placeholder="Name"></td>
+        <td><input class="editable" type="text" placeholder="Nastia" value="Nastia"></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- SECTION 4: Stakeholders -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <div>
+        <div class="section-title">Key Contacts & Decision Makers</div>
+      </div>
+      <div class="section-subtitle">Who needs to say yes at the end?</div>
+    </div>
+    <table>
+      <tr>
+        <th style="width:30%">Role</th>
+        <th style="width:35%">Name & Email</th>
+        <th style="width:35%">Involvement</th>
+      </tr>
+      <tr>
+        <td class="label">Day-to-day user</td>
+        <td><input class="editable" type="text" placeholder="e.g. John Smith, john@company.com"></td>
+        <td><input class="editable" type="text" placeholder="Testing & using the platform daily"></td>
+      </tr>
+      <tr>
+        <td class="label">Budget owner / Decision maker</td>
+        <td><input class="editable" type="text" placeholder="e.g. Sarah Lee, cmo@company.com"></td>
+        <td><input class="editable" type="text" placeholder="Signs off on purchase decision"></td>
+      </tr>
+      <tr>
+        <td class="label">Technical contact</td>
+        <td><input class="editable" type="text" placeholder="e.g. Dev team / CTO (if API involved)"></td>
+        <td><input class="editable" type="text" placeholder="API setup, data integration"></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- SECTION 5: Setup Checklist -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <div>
+        <div class="section-title">What We Need to Set Up for Success</div>
+      </div>
+    </div>
+    <table>
+      <tr>
+        <th style="width:30%">Item</th>
+        <th style="width:45%">Details</th>
+        <th style="width:25%">Status</th>
+      </tr>
+      <tr>
+        <td class="label">Domains / projects to track</td>
+        <td><input class="editable" type="text" placeholder="e.g. company.com + 3 competitors"></td>
+        <td>
+          <select class="status-select">
+            <option>⬜ To confirm</option>
+            <option>🔄 In progress</option>
+            <option>✅ Done</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">Competitor list</td>
+        <td><input class="editable" type="text" placeholder="e.g. competitor1.com, competitor2.com"></td>
+        <td>
+          <select class="status-select">
+            <option>⬜ To confirm</option>
+            <option>🔄 In progress</option>
+            <option>✅ Done</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">Target markets / geographies</td>
+        <td><input class="editable" type="text" placeholder="e.g. UK, US, DACH"></td>
+        <td>
+          <select class="status-select">
+            <option>⬜ To confirm</option>
+            <option>🔄 In progress</option>
+            <option>✅ Done</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">API access / units needed</td>
+        <td><input class="editable" type="text" placeholder="e.g. 100k units/month, need Analytics API"></td>
+        <td>
+          <select class="status-select">
+            <option>⬜ To confirm</option>
+            <option>🔄 In progress</option>
+            <option>✅ Done</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">Number of seats</td>
+        <td><input class="editable" type="text" placeholder="e.g. 3 users"></td>
+        <td>
+          <select class="status-select">
+            <option>⬜ To confirm</option>
+            <option>🔄 In progress</option>
+            <option>✅ Done</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- SECTION 6: Next Steps -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <div>
+        <div class="section-title">Agreed Next Steps If Criteria Are Met</div>
+      </div>
+      <div class="section-subtitle">No ambiguity at the finish line 🙂</div>
+    </div>
+    <table>
+      <tr>
+        <th style="width:30%">Item</th>
+        <th style="width:70%">Details</th>
+      </tr>
+      <tr>
+        <td class="label">Plan / tier</td>
+        <td><input class="editable" type="text" placeholder="e.g. Business Plan — to confirm after trial"></td>
+      </tr>
+      <tr>
+        <td class="label">API units / limits</td>
+        <td><input class="editable" type="text" placeholder="e.g. Based on trial usage — TBD"></td>
+      </tr>
+      <tr>
+        <td class="label">Contract length</td>
+        <td><input class="editable" type="text" placeholder="e.g. Annual (preferred) or Monthly"></td>
+      </tr>
+      <tr>
+        <td class="label">Decision deadline</td>
+        <td><input class="editable" type="text" placeholder="e.g. Decision by 28 Feb 2026"></td>
+      </tr>
+      <tr>
+        <td class="label">Procurement / legal involved?</td>
+        <td><input class="editable" type="text" placeholder="e.g. Yes — need 2 weeks lead time for legal review"></td>
+      </tr>
+      <tr>
+        <td class="label">Additional notes</td>
+        <td><textarea class="editable" placeholder="Anything else to capture…" rows="2"></textarea></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="footer">
+    Built with ❤️ by Nastia · Semrush
+  </div>
+</div>
+
+<script>
+  // Auto-resize textareas
+  document.querySelectorAll('textarea.editable').forEach(el => {
+    el.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
+    });
+  });
+
+  // Save to localStorage so data persists on refresh
+  function saveData() {
+    const data = {};
+    document.querySelectorAll('[id^="meta-"], .editable, .status-select').forEach((el, i) => {
+      const key = el.id || 'field_' + i;
+      data[key] = el.value;
+    });
+    localStorage.setItem('msp_data', JSON.stringify(data));
+  }
+
+  function loadData() {
+    const saved = localStorage.getItem('msp_data');
+    if (!saved) return;
+    const data = JSON.parse(saved);
+    document.querySelectorAll('[id^="meta-"], .editable, .status-select').forEach((el, i) => {
+      const key = el.id || 'field_' + i;
+      if (data[key] !== undefined) {
+        el.value = data[key];
+        if (el.tagName === 'TEXTAREA') {
+          el.style.height = 'auto';
+          el.style.height = el.scrollHeight + 'px';
+        }
+      }
+    });
+  }
+
+  function resetForm() {
+    if (confirm('Reset all fields? This will clear everything.')) {
+      localStorage.removeItem('msp_data');
+      document.querySelectorAll('.editable').forEach(el => {
+        if (!['Nastia'].includes(el.placeholder)) el.value = '';
+      });
+      document.querySelectorAll('.status-select').forEach(el => el.selectedIndex = 0);
+    }
+  }
+
+  // Auto-save on any input
+  document.addEventListener('input', saveData);
+  document.addEventListener('change', saveData);
+
+  // Load on start
+  loadData();
+</script>
+</body>
+</html>
